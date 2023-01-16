@@ -3,6 +3,10 @@
 //#include <cstdint>
 #include <new>
 
+#ifndef EXTRA_LOGGING
+#define EXTRA_LOGGING 0
+#endif
+
 using namespace NGC_EXT;
 
 // global scope
@@ -42,7 +46,9 @@ void NGC_EXT_handle_group_custom_packet(
 	PacketType pkg_type = static_cast<PacketType>(*(data + curser));
 	curser++;
 
+#if defined(EXTRA_LOGGING) && EXTRA_LOGGING == 1
 	fprintf(stderr, "EX: custom_packet [%s] %lu\n", pkgid2str(pkg_type), length);
+#endif
 
 	if (pkg_type == INVALID) {
 		fprintf(stderr, "(invalid)\n");
@@ -52,7 +58,9 @@ void NGC_EXT_handle_group_custom_packet(
 	auto handle_fn = ngc_ext_ctx->callbacks[pkg_type];
 	auto handle_ud = ngc_ext_ctx->user_data[pkg_type]; // can be null
 	if (handle_fn == nullptr) {
+#if defined(EXTRA_LOGGING) && EXTRA_LOGGING == 1
 		fprintf(stderr, "EX: !!! no handler for packet\n");
+#endif
 		return;
 	}
 
