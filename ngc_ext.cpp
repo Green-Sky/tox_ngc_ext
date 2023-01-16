@@ -1,6 +1,7 @@
 #include "./ngc_ext.hpp"
 
 //#include <cstdint>
+#include <cstdio>
 #include <new>
 
 #ifndef EXTRA_LOGGING
