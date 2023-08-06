@@ -27,6 +27,7 @@ struct NGC_EXT_CTX {
 
 namespace NGC_EXT {
 
+// start with first bit set, to avoid collisions (this will have to change, since those will be standadized?)
 enum PacketType : uint8_t {
 	// TODO: why?
 	INVALID = 0u,
@@ -35,7 +36,7 @@ enum PacketType : uint8_t {
 	// request last (few) message_ids for a peer
 	// - peer_key bytes (peer key we want to know ids for)
 	// - 1 byte (uint8_t count ids, atleast 1)
-	HS1_REQUEST_LAST_IDS = 1u,
+	HS1_REQUEST_LAST_IDS = 0x80 | 1u,
 
 	// respond to a request with 0 or more message ids, sorted by newest first
 	// - peer_key bytes (the msg_ids are from)
@@ -48,7 +49,7 @@ enum PacketType : uint8_t {
 	// request the other side to initiate a FT
 	// - 1 byte (file_kind)
 	// - X bytes (file_kind dependent id, differnt sizes)
-	FT1_REQUEST = 8u,
+	FT1_REQUEST = 0x80 | 8u,
 
 	// TODO: request result negative, speed up not found
 
